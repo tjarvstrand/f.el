@@ -328,3 +328,50 @@
 (ert-deftest f-uniquify-alist/recursive-conflict ()
   (should (equal (f-uniquify-alist '("/foo/bar" "/foo/baz" "/home/www/bar" "/home/www/baz" "/var/foo" "/opt/foo/www/baz"))
                  '(("/foo/bar" . "foo/bar") ("/home/www/bar" . "www/bar") ("/foo/baz" . "foo/baz") ("/home/www/baz" . "home/www/baz") ("/opt/foo/www/baz" . "foo/www/baz") ("/var/foo" . "foo")) )))
+
+;;;; f-exists
+
+(ert-deftest f-exists-test/directory-does-exist ()
+  (with-sandbox
+   (f-mkdir "foo")
+   (should (string= (f-exists "foo") "foo"))))
+
+(ert-deftest f-exists-test/file-does-exist ()
+  (with-sandbox
+   (f-touch "foo.txt")
+   (should (string= (f-exists "foo.txt") "foo.txt"))))
+
+(ert-deftest f-exists-test/does-not-exists ()
+  (with-sandbox
+   (should-not (f-exists "foo.txt"))))
+
+
+;;;; f-directory/f-dir
+
+(ert-deftest f-directory-test/is-directory ()
+  (with-sandbox
+   (f-mkdir "foo")
+   (should (string= (f-directory "foo") "foo"))))
+
+(ert-deftest f-directory-test/is-file ()
+  (with-sandbox
+   (f-touch "foo.txt")
+   (should-not (f-directory "foo.txt"))))
+
+(ert-deftest f-dir-test/alias ()
+  (with-sandbox
+   (f-mkdir "foo")
+   (should (string= (f-dir "foo") "foo"))))
+
+
+;;;; f-file
+
+(ert-deftest f-file-test/is-file ()
+  (with-sandbox
+   (f-touch "foo.txt")
+   (should (string= (f-file "foo.txt") "foo.txt"))))
+
+(ert-deftest f-file-test/is-directory ()
+  (with-sandbox
+   (f-mkdir "foo")
+   (should-not (f-file "foo"))))

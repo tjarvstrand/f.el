@@ -140,6 +140,19 @@ This function expects no duplicate paths."
 This function expects no duplicate paths."
   (-map 'cadr (f--uniquify files)))
 
+(defun f-exists (path)
+  "Like `f-exists?' but return PATH if exists, nil otherwise."
+  (when (f-exists? path) path))
+
+(defalias 'f-dir 'f-directory)
+(defun f-directory (path)
+  "Like `f-directory?' but return PATH if exists, nil otherwise."
+  (when (f-dir? path) path))
+
+(defun f-file (path)
+  "Like `f-file?' but return PATH if exists, nil otherwise."
+  (when (f-file? path) path))
+
 
 ;;;; I/O
 

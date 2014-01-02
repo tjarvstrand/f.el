@@ -34,6 +34,9 @@ Or you can just dump `f.el` in your load path somewhere.
 * [f-full](#f-full-path) `(path)`
 * [f-uniquify](#f-uniquify-paths) `(paths)`
 * [f-uniquify-alist](#f-uniquify-alist-paths) `(paths)`
+* [f-exists](#f-exists--f-exists-path) `(path)`
+* [f-directory](#f-directory--f-directory-path) `(path)`
+* [f-file](#f-file--f-file-path) `(path)`
 
 ### I/O
 
@@ -53,9 +56,9 @@ Or you can just dump `f.el` in your load path somewhere.
 
 ### Predicates
 
-* [f-exists?](#f-exists-path) `(path)`
-* [f-directory?](#f-directory-path) `(path)`
-* [f-file?](#f-file-path) `(path)`
+* [f-exists?](#f-exists--f-exists-path) `(path)`
+* [f-directory?](#f-directory--f-directory-path) `(path)`
+* [f-file?](#f-file--f-file-path) `(path)`
 * [f-symlink?](#f-symlink-path) `(path)`
 * [f-readable?](#f-readable-path) `(path)`
 * [f-writable?](#f-writable-path) `(path)`
@@ -357,33 +360,58 @@ Update PATH last modification date or create if it does not exist.
 (f-touch "path/to/non/existing/file.txt")
 ```
 
-### f-exists? `(path)`
+### f-exists? / f-exists `(path)`
 
-Return t if PATH exists, false otherwise.
+`f-exists?` - Return t if PATH exists, false otherwise.
 
 ```lisp
 (f-exists? "path/to/file.txt")
 (f-exists? "path/to/dir")
 ```
 
-### f-directory? `(path)`
+`f-exists` - Like `f-exists?' but return PATH if exists, nil otherwise.
 
-Return t if PATH is directory, false otherwise.
+```lisp
+(f-exists "path/to/file.txt")
+(f-exists "path/to/dir")
+```
+
+### f-directory? / f-directory `(path)`
+
+`f-directory?` - Return t if PATH is directory, false otherwise.
 
 Alias: `f-dir?`
 
 ```lisp
 (f-directory? "path/to/file.txt") ;; => nil
 (f-directory? "path/to/dir") ;; => t
+(f-dir? "path/to/dir") ;; => t
 ```
 
-### f-file? `(path)`
+`f-directory` - Like `f-directory?' but return PATH if exists, nil otherwise.
 
-Return t if PATH is file, false otherwise.
+Alias: `f-dir`
 
 ```lisp
-(f-directory? "path/to/file.txt") ;; => t
-(f-directory? "path/to/dir") ;; => nil
+(f-directory "path/to/file.txt") ;; => nil
+(f-directory "path/to/dir") ;; => "path/to/dir"
+(f-dir "path/to/dir") ;; => "path/to/dir"
+```
+
+### f-file? / f-file `(path)`
+
+`f-file?` - Return t if PATH is file, false otherwise.
+
+```lisp
+(f-file? "path/to/file.txt") ;; => t
+(f-file? "path/to/dir") ;; => nil
+```
+
+`f-file?` - Return t if PATH is file, false otherwise.
+
+```lisp
+(f-file "path/to/file.txt") ;; => "path/to/file.txt"
+(f-file "path/to/dir") ;; => nil
 ```
 
 ### f-symlink? `(path)`
