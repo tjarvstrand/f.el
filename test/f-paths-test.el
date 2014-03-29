@@ -139,6 +139,25 @@
   (with-playground
    (should-not (f-parent (f-root)))))
 
+(ert-deftest f-dirname-test/0th-level ()
+  (with-playground
+   (f-mkdir "foo" "bar" "baz")
+   (should
+    (equal
+     (f-dirname "foo/bar/baz" 0) "foo/bar/baz"))))
+
+(ert-deftest f-dirname-test/1st-level ()
+  (with-playground
+   (f-mkdir "foo" "bar" "baz")
+   (should
+    (equal
+     (f-dirname "foo/bar/baz" 1) "foo/bar"))))
+
+(ert-deftest f-dirname-test/root-level ()
+  (with-playground
+   (f-mkdir "foo" "bar" "baz")
+   (should-not (f-dirname "foo/bar/baz" 4))))
+
 
 ;;;; f-ext
 

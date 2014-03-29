@@ -83,13 +83,21 @@ If PATH is not allowed to be modified, throw error."
   (file-name-nondirectory (directory-file-name path)))
 
 (defalias 'f-parent 'f-dirname)
-(defun f-dirname (path)
-  "Return the parent directory to PATH."
-  (let ((parent (file-name-directory (f-expand path default-directory))))
-    (unless (f-same? path parent)
-      (if (f-relative? path)
-          (f-relative parent)
-        (directory-file-name parent)))))
+(defun f-dirname (path &optional n)
+  "Return the Nth parent directory of PATH. Optional argument N defaults
+to 1."
+  (let (child
+        (parent (f-expand path default-directory)))
+    (loop repeat (or n 1)
+          while (and parent
+                     (or (not child)
+                         (not (f-same? child parent))))
+          for child = parent
+          for parent = (file-name-directory (directory-file-name parent)))
+
+    (if (f-relative? path)
+        (f-relative parent)
+      (directory-file-name parent))))
 
 (defun f-ext (path)
   "Return the file extension of PATH."
